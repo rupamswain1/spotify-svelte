@@ -39,6 +39,8 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"modern-normalize": "^2.0.0"
+		"@fontsource/metropolis": "^5.0.7",
+		"modern-normalize": "^2.0.0",
+		"sass": "^1.72.0"
 	}
 }
