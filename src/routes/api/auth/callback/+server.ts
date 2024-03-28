@@ -20,12 +20,13 @@ export const GET: RequestHandler = async ({ url, cookies, fetch }) => {
 		},
 		body: new URLSearchParams({
 			code: code || '',
-			redirect_ur: `${BASE_URL}/api/auth/callback`,
+			redirect_uri: `${BASE_URL}/api/auth/callback`,
 			grant_type: 'authorization_code',
 			code_verifier: storedChallengeVerifier || '',
 			client_id: SPOTIFY_APP_CLIENT_ID
 		})
 	});
+
 	const responseJSON = await response.json();
 	console.log({ responseJSON });
 	if (responseJSON.error) {
@@ -36,5 +37,5 @@ export const GET: RequestHandler = async ({ url, cookies, fetch }) => {
 	cookies.set('refresh_token', responseJSON.refresh_token, { path: '/' });
 	cookies.set('access_token', responseJSON.access_token, { path: '/' });
 
-	throw redirect(300, '/');
+	throw redirect(303, '/');
 };
