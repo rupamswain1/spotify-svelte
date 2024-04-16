@@ -7,11 +7,27 @@
 	$: user = data.user;
 </script>
 
-<Button element="a" variant={'outline'} href>Login</Button>
-<Button element="button">Login</Button>
 {#if user}
 	<p>Hello {user.display_name}</p>
 	<LogoutButton />
 {/if}
 
-<slot />
+<div id="main">
+	<div id="content">
+		<main id="main-content">
+			<slot />
+		</main>
+	</div>
+</div>
+
+<style lang="scss">
+	#main {
+		#content {
+			#main-content {
+				padding: 30px 15px 60px;
+				@media only screen and (max-width: 1000px) {
+				}
+			}
+		}
+	}
+</style>
