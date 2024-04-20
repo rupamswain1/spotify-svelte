@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { LogoutButton, Button } from '$components';
+	import Navigation from '$components/Navigation.svelte';
 	import '../app.css';
 	import '../styles/main.scss';
 	import type { LayoutData } from './$types';
@@ -7,12 +8,12 @@
 	$: user = data.user;
 </script>
 
-{#if user}
-	<p>Hello {user.display_name}</p>
-	<LogoutButton />
-{/if}
-
 <div id="main">
+	{#if user}
+		<div id="sidebar">
+			<Navigation desktop={true} />
+		</div>
+	{/if}
 	<div id="content">
 		<main id="main-content">
 			<slot />
@@ -22,7 +23,9 @@
 
 <style lang="scss">
 	#main {
+		display: flex;
 		#content {
+			flex: 1;
 			#main-content {
 				padding: 30px 15px 60px;
 				@media only screen and (max-width: 1000px) {
