@@ -5,8 +5,17 @@
 	import '../styles/main.scss';
 	import type { LayoutData } from './$types';
 	export let data: LayoutData;
+
+	let topbar: HTMLElement;
+	let scrollY: number;
+	let headerOpacity = 0;
+	$: if (topbar) {
+		headerOpacity = scrollY / topbar.offsetHeight < 1 ? scrollY / topbar.offsetHeight : 1;
+	}
 	$: user = data.user;
 </script>
+
+<svelte:window bind:scrollY />
 
 <div id="main">
 	{#if user}
@@ -15,7 +24,15 @@
 		</div>
 	{/if}
 	<div id="content">
-		<main id="main-content">
+		<div id="topbar" bind:this={topbar}>
+			<div
+				class="topbar-bg"
+				style:background-color="var(--header-color)"
+				style:opacity={headerOpacity}
+			/>
+			topbar
+		</div>
+		<main id="main-content" class:logged-in={user}>
 			<slot />
 		</main>
 	</div>
@@ -26,9 +43,34 @@
 		display: flex;
 		#content {
 			flex: 1;
+			#topbar {
+				position: fixed;
+				height: var(--header-height);
+				padding: 0 15px;
+				display: flex;
+				align-items: center;
+				width: 100%;
+				z-index: 100;
+				.topbar-bg {
+					position: absolute;
+					width: 100%;
+					height: var(--header-height);
+					top: 0;
+					left: 0;
+					z-index: '-1';
+				}
+				@media only screen and (min-width: 1000px) {
+					padding: 0 30px;
+					width: calc(100% - var(--sidebar-width));
+				}
+			}
 			#main-content {
 				padding: 30px 15px 60px;
 				@media only screen and (max-width: 1000px) {
+					padding: 30px 30px 60px;
+				}
+				&.logged-in {
+					padding-top: calc(30px + var(--header-height)) !important;
 				}
 			}
 		}
