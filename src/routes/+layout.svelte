@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { LogoutButton, Button } from '$components';
-	import Navigation from '$components/Navigation.svelte';
+	import { Navigation, Header } from '$components';
 	import '../app.css';
 	import '../styles/main.scss';
 	import type { LayoutData } from './$types';
@@ -11,6 +10,7 @@
 	let headerOpacity = 0;
 	$: if (topbar) {
 		headerOpacity = scrollY / topbar.offsetHeight < 1 ? scrollY / topbar.offsetHeight : 1;
+		console.log({ headerOpacity });
 	}
 	$: user = data.user;
 </script>
@@ -30,7 +30,7 @@
 				style:background-color="var(--header-color)"
 				style:opacity={headerOpacity}
 			/>
-			topbar
+			<Header />
 		</div>
 		<main id="main-content" class:logged-in={user}>
 			<slot />
@@ -54,7 +54,7 @@
 				.topbar-bg {
 					position: absolute;
 					width: 100%;
-					height: var(--header-height);
+					height: 100%;
 					top: 0;
 					left: 0;
 					z-index: '-1';
@@ -64,7 +64,7 @@
 					width: calc(100% - var(--sidebar-width));
 				}
 			}
-			#main-content {
+			main#main-content {
 				padding: 30px 15px 60px;
 				@media only screen and (max-width: 1000px) {
 					padding: 30px 30px 60px;
