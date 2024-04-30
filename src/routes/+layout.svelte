@@ -62,6 +62,11 @@
 <style lang="scss">
 	#main {
 		display: flex;
+		:global(html.no-js) & {
+			@media only screen and (max-width: 1000px) {
+				display: block;
+			}
+		}
 		#content {
 			flex: 1;
 			#topbar {
@@ -72,6 +77,16 @@
 				align-items: center;
 				width: 100%;
 				z-index: 100;
+				:global(html.no-js) & {
+					position: sticky;
+					top: 0;
+					background-color: var(--heade-color);
+					height: auto;
+					padding: 10px 20px;
+					@media only screen and (min-width: 1000px) {
+						position: fixed;
+					}
+				}
 				.topbar-bg {
 					position: absolute;
 					width: 100%;
@@ -92,6 +107,11 @@
 				}
 				&.logged-in {
 					padding-top: calc(30px + var(--header-height)) !important;
+					:global(html.no-js) & {
+						@media only screen and (max-width: 1000px) {
+							padding-top: 300px;
+						}
+					}
 				}
 			}
 		}

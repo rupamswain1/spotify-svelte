@@ -175,6 +175,12 @@
 			height: 100vh;
 			overflow: auto;
 			display: none;
+			:global(html.no-js) & {
+				@media only screen and (max-width: 1000px) {
+					display: block;
+					height: auto;
+				}
+			}
 			ul {
 				padding: 0;
 				margin: 20px 0 0;
