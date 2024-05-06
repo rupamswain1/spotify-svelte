@@ -1,7 +1,10 @@
 import type { PageLoad } from './$types';
+import { fetchRefresh } from '$helpers';
 
-export const load: PageLoad = async ({ fetch, parent }) => {
+export const load: PageLoad = async ({ fetch: _fetch, parent }) => {
+	const fetch = (path: string) => fetchRefresh(_fetch, path);
 	const { user } = await parent();
+
 	const newReleases = fetch('/api/spotify/browse/new-releases?limit=6');
 
 	const featuredPlayLists = fetch('/api/spotify/browse/featured-playlists?limit=6');
@@ -15,7 +18,6 @@ export const load: PageLoad = async ({ fetch, parent }) => {
 	const randomCats = catsResJSON
 		? catsResJSON.categories.items.sort(() => 0.5 - Math.random()).slice(0, 3)
 		: [];
-	console.log({ randomCats });
 	const randomCatsPromises = randomCats.map((cat) =>
 		fetch(`/api/spotify/browse/categories/${cat.id}/playlists?limit=6`)
 	);

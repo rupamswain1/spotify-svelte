@@ -11,7 +11,6 @@ export const GET: RequestHandler = async ({ url, cookies, fetch }) => {
 	if (state === null || state !== storedState) {
 		throw error(400, 'state Mismatch');
 	}
-	console.log(`${BASE_URL}/api/auth/callback`);
 	const response = await fetch('https://accounts.spotify.com/api/token', {
 		method: 'POST',
 		headers: {
@@ -28,7 +27,6 @@ export const GET: RequestHandler = async ({ url, cookies, fetch }) => {
 	});
 
 	const responseJSON = await response.json();
-	console.log({ responseJSON });
 	if (responseJSON.error) {
 		throw error(400, responseJSON.error_description);
 	}

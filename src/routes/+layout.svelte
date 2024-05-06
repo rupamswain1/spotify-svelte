@@ -16,7 +16,6 @@
 	let headerOpacity = 0;
 	$: if (topbar) {
 		headerOpacity = scrollY / topbar.offsetHeight < 1 ? scrollY / topbar.offsetHeight : 1;
-		console.log({ headerOpacity });
 	}
 	$: user = data.user;
 

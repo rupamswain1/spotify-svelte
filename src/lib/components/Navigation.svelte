@@ -45,7 +45,6 @@
 	};
 
 	const moveFocusToBottom = (e: KeyboardEvent) => {
-		console.log('down');
 		if (desktop) return;
 		if (e.key === 'Tab' && e.shiftKey) {
 			e.preventDefault();
