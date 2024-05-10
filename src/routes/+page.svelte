@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Button from '$components/Button.svelte';
+	import Card from '$components/Card.svelte';
 	import type { PageData } from '.$types';
 	export let data: PageData;
 
@@ -30,12 +31,13 @@
 			const categoryPlaylists = data.categoriesPlaylists[index];
 			if (categoryPlaylists) {
 				sections.push({
-					title: category.message,
+					title: categoryPlaylists.message,
 					path: `/category/$category.id`,
 					items: categoryPlaylists.playlists.items
 				});
 			}
 		});
+		console.log({ sections });
 		if (data.userPlaylists) {
 			sections.push({
 				title: 'Your Playlists',
@@ -61,9 +63,8 @@
 		</div>
 		<div class="grid-items">
 			{#each section.items as item}
-				<div class="grid-item" style="background-color:black;">
-					<h5>{item.type}</h5>
-					<h3>{item.name}</h3>
+				<div class="grid-item">
+					<Card {item} />
 				</div>
 			{/each}
 		</div>
@@ -72,6 +73,7 @@
 
 <style lang="scss">
 	.content-row {
+		margin-bottom: 40px;
 		.content-row-header {
 			display: flex;
 			align-items: center;

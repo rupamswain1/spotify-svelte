@@ -112,6 +112,9 @@ a {
     display: grid;
     grid-template-columns: 1fr;
     gap:20px;
+    .card{
+        height:100%
+    }
     @media only screen and (max-width:2600px){
         grid-template-columns: repeat(6,minmax(0,1fr));
     }
@@ -123,4 +126,12 @@ a {
     }
    
     
+}
+@for $i from 1 through 3{
+    .truncate-#{$i}{
+        display: -webkit-box;
+        -webkit-line-clamp: $i;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
 }
