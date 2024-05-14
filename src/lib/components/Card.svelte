@@ -48,15 +48,15 @@
 						outline: 2px solid var(--accent-color);
 					}
 				}
-				&:after {
-					content: '';
-					position: absolute;
-					top: 0;
-					left: 0;
-					right: 0;
-					bottom: 0;
-					border-radius: 4px;
-				}
+				// &:after {
+				// 	content: '';
+				// 	position: absolute;
+				// 	top: 0;
+				// 	left: 0;
+				// 	right: 0;
+				// 	bottom: 0;
+				// 	border-radius: 4px;
+				// }
 			}
 		}
 		p {
