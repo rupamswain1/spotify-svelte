@@ -53,7 +53,7 @@
 	<section class="content-row">
 		<div class="content-row-header">
 			<div class="right">
-				<h2 class="section-title">{section.title}{section.path}</h2>
+				<h2 class="section-title">{section.title}</h2>
 			</div>
 			<div class="left">
 				<Button element="a" href={section.path} variant="outline"
