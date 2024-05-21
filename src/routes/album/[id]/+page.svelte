@@ -2,6 +2,7 @@
 	import { getCopyrightSymbol } from '$helpers';
 	import ItemPage from '$components/ItemPage.svelte';
 	import { Images } from 'lucide-svelte';
+	import TrackList from '$components/TrackList.svelte';
 	export let data;
 
 	$: album = data.album;
@@ -23,13 +24,7 @@
 			{`${album.total_tracks} Track${album.total_tracks > 1 ? 's' : ''}`}
 		</span>
 	</p>
-	<div class="tracks">
-		<ul>
-			{#each album.tracks.items as track}
-				<li>{track.name}</li>
-			{/each}
-		</ul>
-	</div>
+	<TrackList tracks={album.tracks.items} />
 
 	<div class="credits">
 		<p class="date">
