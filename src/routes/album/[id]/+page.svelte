@@ -1,16 +1,17 @@
 <script lang="ts">
 	import { getCopyrightSymbol } from '$helpers';
-	import ItemPage from '$components/itemPage.svelte';
+	import ItemPage from '$components/ItemPage.svelte';
 	import { Images } from 'lucide-svelte';
 	export let data;
 
 	$: album = data.album;
+	$: color = data.color;
 </script>
 
 <ItemPage
 	title={album.name}
 	type={album.album_type}
-	color={'blue'}
+	{color}
 	image={album.images.length > 0 ? album.images[0].url : undefined}
 >
 	<p class="meta" slot="meta">
