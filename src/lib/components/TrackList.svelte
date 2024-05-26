@@ -102,21 +102,22 @@
 				width: 16px;
 				height: 16px;
 			}
-		}
-		&:not(.header) {
-			&:hover {
-				background-color: rgba(255, 255, 255, 0.05);
-				.number-column {
-					.player {
-						display: block;
-					}
-					span.number,
-					.playing-gif {
-						display: none;
+			&:not(.header) {
+				&:hover {
+					background-color: rgba(255, 255, 255, 0.05);
+					.number-column {
+						.player {
+							display: block;
+						}
+						span.number,
+						.playing-gif {
+							display: none;
+						}
 					}
 				}
 			}
 		}
+
 		.number-column {
 			width: 30px;
 			display: flex;
@@ -130,7 +131,7 @@
 				width: 12px;
 			}
 			.player {
-				disable: none;
+				display: none;
 			}
 		}
 		.info-column {
