@@ -60,6 +60,10 @@
 	.player {
 		audio {
 			display: none;
+			:global(html.no-js) {
+				display: block;
+				width: 100%;
+			}
 		}
 		button {
 			width: 12px;

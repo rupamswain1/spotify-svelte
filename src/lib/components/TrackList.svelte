@@ -81,6 +81,14 @@
 			align-items: center;
 			padding: 7px 5px;
 			border-radius: 4px;
+			@media only screen and (max-width: 750px) {
+				:global(.no-js) & {
+					flex-direction: column;
+					background-color: rgba(255, 255, 255, 0.03);
+					padding: 20px;
+					margin-bottom: 20px;
+				}
+			}
 			&.is-current {
 				.info-column .track-title h4,
 				.number-column span.number {
@@ -89,6 +97,14 @@
 			}
 			&.header {
 				border-bottom: 1px solid var(--border);
+				border-radius: 0px;
+				padding: 5px;
+				margin-bottom: 15px;
+				@media only screen and (max-width: 750px) {
+					:global(.no-js) & {
+						display: none;
+					}
+				}
 			}
 			border-radius: 0px;
 			padding: 5px;
@@ -109,7 +125,14 @@
 						.player {
 							display: block;
 						}
-						span.number,
+						span.number {
+							display: none;
+
+							:global(.no-js) & {
+								display: block;
+							}
+						}
+
 						.playing-gif {
 							display: none;
 						}
@@ -133,9 +156,29 @@
 			.player {
 				display: none;
 			}
+			:global(html.no-js) & {
+				width: 200px;
+				display: flex;
+				align-items: center;
+				@media only screen and (max-width: 750px) {
+					width: 100%;
+					margin-right: 0;
+					margin-bottom: 15px;
+				}
+				.player {
+					display: block;
+					width: 100px;
+					margin-left: 10px;
+				}
+			}
 		}
 		.info-column {
 			flex: 1;
+			@media only screen and (max-width: 750px) {
+				:global(.no-js) & {
+					width: 100%;
+				}
+			}
 			.track-title {
 				display: flex;
 				align-items: center;
@@ -164,6 +207,18 @@
 				a {
 					color: inherit;
 					text-decoration: none;
+				}
+			}
+		}
+		.duration-column {
+			span.duration {
+				color: var(--light-gray);
+				font-size: 0.8rem;
+			}
+			@media only screen and (max-width: 750px) {
+				:global(.no-js) & {
+					width: 100%;
+					margin: 10px 0;
 				}
 			}
 		}
