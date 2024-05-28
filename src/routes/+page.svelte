@@ -4,7 +4,6 @@
 	import type { PageData } from '.$types';
 	export let data: PageData;
 
-	$: console.log({ featured: data });
 	let sections: {
 		title: string;
 		path: string;
@@ -12,7 +11,6 @@
 	}[] = [];
 
 	$: {
-		console.log('newRelease', data.featuredPlaylists.playlists.items);
 		if (data.newReleases) {
 			sections.push({
 				title: 'New Releases',
@@ -37,7 +35,6 @@
 				});
 			}
 		});
-		console.log({ sections });
 		if (data.userPlaylists) {
 			sections.push({
 				title: 'Your Playlists',
@@ -46,7 +43,6 @@
 			});
 		}
 	}
-	$: console.log({ sections });
 </script>
 
 {#each sections as section}

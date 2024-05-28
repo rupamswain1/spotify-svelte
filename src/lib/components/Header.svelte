@@ -128,6 +128,10 @@
 					width: 100%;
 					text-align: left;
 					font-size: 0.9rem;
+					border-radius: 0;
+					&:hover {
+						background-image: none;
+					}
 				}
 			}
 		}
