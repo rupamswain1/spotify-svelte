@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Navigation, Header } from '$components';
+	import { Navigation, Header, Toasts } from '$components';
 	import '../app.css';
 	import '../styles/main.scss';
 	import type { LayoutData } from './$types';
@@ -32,6 +32,7 @@
 <svelte:head>
 	<title>Spotify{$page.data.title ? ` - ${$page.data.title}` : ``}</title>
 </svelte:head>
+<Toasts />
 {#if user}
 	<a href="#main-content" class="skip-link">Skip To Main Content</a>
 {/if}

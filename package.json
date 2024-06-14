@@ -23,6 +23,7 @@
 		"@types/node": "^20.11.30",
 		"@types/nprogress": "^0.2.3",
 		"@types/sharp": "^0.32.0",
+		"@types/uniqid": "^5.3.4",
 		"@typescript-eslint/eslint-plugin": "^7.0.0",
 		"@typescript-eslint/parser": "^7.0.0",
 		"autoprefixer": "^10.4.18",
@@ -49,6 +50,7 @@
 		"nprogress": "^0.2.0",
 		"pkce-gen": "^1.1.0",
 		"sass": "^1.72.0",
-		"tippy.js": "^6.3.7"
+		"tippy.js": "^6.3.7",
+		"uniqid": "^5.4.0"
 	}
 }
