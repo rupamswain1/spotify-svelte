@@ -7,6 +7,7 @@
 	import NProgress from 'nprogress';
 	import 'nprogress/nprogress.css';
 	import { afterNavigate, beforeNavigate } from '$app/navigation';
+	import { toasts } from '$stores';
 	export let data: LayoutData;
 
 	NProgress.configure({ showSpinner: false });
@@ -33,6 +34,11 @@
 	<title>Spotify{$page.data.title ? ` - ${$page.data.title}` : ``}</title>
 </svelte:head>
 <Toasts />
+<button
+	on:click={() => {
+		toasts.error('Message');
+	}}>Add toast</button
+>
 {#if user}
 	<a href="#main-content" class="skip-link">Skip To Main Content</a>
 {/if}
