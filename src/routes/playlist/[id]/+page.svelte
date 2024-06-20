@@ -10,7 +10,6 @@
 
 	export let data: PageData;
 	export let form: ActionData;
-	let isLoadingFollow = false;
 	let followButton: Button<'button'>;
 	let isLoading = false;
 	$: color = data.color;
@@ -44,7 +43,7 @@
 
 <ItemPage
 	title={playlist.name}
-	image={playlist.images.length > 0 ? playlist.images[0].url : undefined}
+	image={playlist?.images?.length > 0 ? playlist?.images[0]?.url : undefined}
 	{color}
 	type={playlist.type}
 >
@@ -59,7 +58,9 @@
 
 	<div class="playlist-actions">
 		{#if data.user?.id === playlist.owner.id}
-			<Button element="a" variant="outline">Edit Playlist</Button>
+			<Button element="a" variant="outline" href="/playlist/{playlist.id}/edit"
+				>Edit Playlist</Button
+			>
 		{:else if isFollowing != null}
 			<form
 				class="follow-form"

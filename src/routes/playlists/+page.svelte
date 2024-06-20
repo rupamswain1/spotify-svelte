@@ -1,30 +1,27 @@
 <script lang="ts">
-	import Button from '$components/Button.svelte';
-	import Card from '$components/Card.svelte';
-	import Pagination from '$components/pagination.svelte';
-	import toast from '$stores/toast';
-	import type { PageData } from '../$types';
+	import { Button, Card, Modal, Pagination } from '$components';
+	import { toasts } from '$stores';
+	import MicroModal from 'micromodal';
+	import type { PageData } from './$types';
 
 	export let data: PageData;
+
 	let isLoading = false;
 
 	$: playlists = data.userPlayLists;
 
-	async function loadMore() {
+	async function loadMoreItems() {
 		if (!playlists.next) return;
 		isLoading = true;
-		const res = await fetch(
-			playlists?.next.replace('https://api.spotify.com/v1/', '/api/spotify/')
-		);
-
+		const res = await fetch(playlists.next.replace('https://api.spotify.com/v1/', '/api/spotify/'));
 		if (res.ok) {
 			const resJSON = await res.json();
 			playlists = {
 				...resJSON,
-				items: [...playlists?.items, ...resJSON.items]
+				items: [...playlists.items, ...resJSON.items]
 			};
 		} else {
-			toast.error('Could not load data!');
+			toasts.error('Could not load data!');
 		}
 		isLoading = false;
 	}
@@ -34,21 +31,30 @@
 	{#if playlists?.items?.length > 0}
 		<div class="title">
 			<h1>{data.title}</h1>
-			<Button element="a" href="/playlists/new">Add New</Button>
+			<Button
+				element="a"
+				href="/playlists/new"
+				on:click={(e) => {
+					e.preventDefault();
+					MicroModal.show('add-playlist-modal');
+				}}>+ Add New</Button
+			>
 		</div>
-		<div class="grid-item">
+		<div class="grid-items">
 			{#each playlists.items as item}
 				<Card {item} />
 			{/each}
 		</div>
-		<Pagination paginatedList={playlists} on:loadmore={loadMore} {isLoading} />
+		<Pagination paginatedList={playlists} on:loadmore={loadMoreItems} {isLoading} />
 	{:else}
 		<div class="empty">
-			<p>No Playlists yet</p>
-			<Button element="a" href="/playlists/new">Add New</Button>
+			<p>No Playlists Yet!</p>
+			<Button element="a" href="/playlists/new">+ Add New</Button>
 		</div>
 	{/if}
 </div>
+
+<Modal id="add-playlist-modal" title="Add a New Playlist">Some content</Modal>
 
 <style lang="scss">
 	.content {

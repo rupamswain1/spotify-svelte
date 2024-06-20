@@ -7,9 +7,13 @@
 	import NProgress from 'nprogress';
 	import 'nprogress/nprogress.css';
 	import { afterNavigate, beforeNavigate } from '$app/navigation';
-	import { toasts } from '$stores';
+	import MicroModal from 'micromodal';
+	import { browser } from '$app/environment';
 	export let data: LayoutData;
 
+	if (browser) {
+		MicroModal.init();
+	}
 	NProgress.configure({ showSpinner: false });
 
 	let topbar: HTMLElement;
