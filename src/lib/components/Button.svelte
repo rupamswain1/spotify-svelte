@@ -9,20 +9,22 @@
 	}
 
 	type $$Props = ButtonComponentElements[Element] & {
-		element: 'button' | 'a';
+		element: Element;
 		variant?: 'solid' | 'outline' | 'danger';
 		className?: string;
 	};
-	export let element: 'button' | 'a';
+
+	export let element: Element;
 	export let variant: 'solid' | 'outline' | 'danger' = 'solid';
 	export let className: string = '';
+
 	let node: HTMLAnchorElement | HTMLButtonElement;
+
 	export function focus() {
 		node.focus();
 	}
 </script>
 
-<!-- svelte-ignore a11y-no-static-element-interactions -->
 <svelte:element
 	this={element}
 	bind:this={node}
@@ -38,7 +40,7 @@
 		display: inline-block;
 		border: none;
 		font-weight: 600;
-		font-size: 1rem;
+		font-size: 0.9rem;
 		border-radius: 20px;
 		cursor: pointer;
 		padding: 7px 15px;
@@ -64,7 +66,7 @@
 		}
 		&:hover {
 			&.button-solid,
-			&.button-outline {
+			&.button-danger {
 				background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0 0);
 			}
 			&.button-outline {
@@ -72,7 +74,8 @@
 			}
 		}
 		&:active {
-			&.button-solid {
+			&.button-solid,
+			&.button-danger {
 				background-image: linear-gradient(rgba(255, 255, 255, 0.1) 0 0);
 			}
 			&.button-outline {

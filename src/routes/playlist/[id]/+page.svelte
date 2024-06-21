@@ -7,9 +7,14 @@
 	import type { ActionData, PageData } from './$types';
 	import { applyAction, enhance } from '$app/forms';
 	import { toasts } from '$stores';
+	import Modal from '$components/Modal.svelte';
+	import PlaylistForm from '$components/PlaylistForm.svelte';
+	import type { ActionData as EditActionData } from './edit/$type';
+	import MicroModal from 'micromodal';
+	import { invalidateAll } from '$app/navigation';
 
 	export let data: PageData;
-	export let form: ActionData;
+	export let form: ActionData | EditActionData;
 	let followButton: Button<'button'>;
 	let isLoading = false;
 	$: color = data.color;
@@ -58,8 +63,14 @@
 
 	<div class="playlist-actions">
 		{#if data.user?.id === playlist.owner.id}
-			<Button element="a" variant="outline" href="/playlist/{playlist.id}/edit"
-				>Edit Playlist</Button
+			<Button
+				element="a"
+				variant="outline"
+				href="/playlist/{playlist.id}/edit"
+				on:click={(e) => {
+					e.preventDefault();
+					MicroModal.show('edit-playlist-modal');
+				}}>Edit Playlist</Button
 			>
 		{:else if isFollowing != null}
 			<form
@@ -79,6 +90,7 @@
 							await applyAction(result);
 						}
 						followButton.focus();
+						invalidateAll();
 					};
 				}}
 			>
@@ -87,7 +99,7 @@
 					{isFollowing ? 'Unfollow' : 'Follow'}
 					<span class="visually-hidden">{playlist.name} playlist</span>
 				</Button>
-				{#if form?.followError}
+				{#if form && 'followForm' in form && form?.followError}
 					<p class="error">{form.followError}</p>
 				{/if}
 			</form>
@@ -95,7 +107,11 @@
 	</div>
 
 	{#if playlist.tracks.items.length > 0}
-		<TrackList tracks={filteredTracks} />
+		<TrackList
+			tracks={filteredTracks}
+			isOwner={data.user?.id === playlist.owner.id}
+			userPlaylists={data.userAllPlaylists?.filter((pl) => pl.owner.id === data.user?.id)}
+		/>
 		{#if playlist.tracks.next}
 			<div class="load-more">
 				<Button element="button" variant="outline" disabled={isLoading} on:click={loadMoreTracks}
@@ -135,6 +151,12 @@
 		</div>
 	{/if}
 </ItemPage>
+<Modal id="edit-playlist-modal" title="Edit {playlist.name}">
+	<PlaylistForm
+		action="/playlists/{playlist.id}/edit"
+		form={form && 'editForm' in form ? form : null}
+	/>
+</Modal>
 
 <style lang="scss">
 	.empty-playlist {

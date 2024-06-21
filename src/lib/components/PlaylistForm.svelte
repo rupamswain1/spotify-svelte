@@ -2,6 +2,7 @@
 	import Button from './Button.svelte';
 	import type { ActionData as AddActionData } from '../../routes/playlists/new/$types';
 	import type { ActionData as EditActionData } from '../../routes/playlist/[id]/edit/$types';
+	import { applyAction, enhance } from '$app/forms';
 
 	export let form: AddActionData | EditActionData;
 	export let userID: string | undefined = undefined;
@@ -10,9 +11,24 @@
 		| SpotifyApi.PlaylistObjectFull
 		| SpotifyApi.PlaylistObjectSimplified
 		| undefined = undefined;
+
+	let isLoading = false;
 </script>
 
-<form method="POST" {action}>
+<form
+	method="POST"
+	{action}
+	use:enhance={() => {
+		isLoading = true;
+		return () => {
+			isLoading = false;
+			return async ({ result }) => {
+				await applyAction(result);
+				isLoading = false;
+			};
+		};
+	}}
+>
 	{#if userID}<input hidden name="userID" value={userID} />{/if}
 	<div class="field" class:has-error={form?.nameError}>
 		<label for="playlist-name">Name *</label>
@@ -42,7 +58,9 @@
 	</div>
 
 	<div class="submit-button">
-		<Button element="button" type="submit">{playlist ? 'Save Playlist' : 'Create Playlist'}</Button>
+		<Button element="button" type="submit" disabled={isLoading}
+			>{playlist ? 'Save Playlist' : 'Create Playlist'}</Button
+		>
 	</div>
 </form>
 
