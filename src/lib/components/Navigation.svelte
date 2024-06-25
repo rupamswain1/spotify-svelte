@@ -152,7 +152,7 @@
 					<ul>
 						{#each userAllPlaylists as playlist}
 							<li class:active={$page.url.pathname === `/playlist/${playlist.id}`}>
-								<a href="/playlist.id">{playlist.name}</a>
+								<a href="/playlist/{playlist.id}">{playlist.name}</a>
 							</li>
 						{/each}
 					</ul>

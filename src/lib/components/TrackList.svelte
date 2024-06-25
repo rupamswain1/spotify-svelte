@@ -5,7 +5,8 @@
 	import playingGif from '$assets/playing.gif';
 	import tippy from '$actions/tippy/tippy-plugin';
 	import { onMount } from 'svelte';
-
+	import Button from './Button.svelte';
+	import { page } from '$app/stores';
 	let currentPlaying: string | null = null;
 	let isPaused: boolean = false;
 
@@ -75,6 +76,7 @@
 						aria-label="Add {track.name} to a playlist"
 						class="add-pl-button"
 						disabled={!userPlaylists}
+						on:click={() => console.log('click')}
 						use:tippy={{
 							content: document.getElementById(`${track.id}-playlists-menu`) || undefined,
 							allowHTML: true,
@@ -93,9 +95,23 @@
 						<ListPlus aria-hidden focusable="false" />
 					</button>
 					{#if userPlaylists}
-						<div class="playlist-menu" id="{track.id}-playlists-menu" style="display: none;">
-							<div class="playlist-menu-content">
-								{track.name}
+						<div class="playlists-menu" id="{track.id}-playlists-menu" style="display: none;">
+							<div class="playlists-menu-content">
+								<form method="POST" action="/playlist?/addItem&redirect={$page.url.pathname}">
+									<input hidden value={track.id} name="track" />
+									<div class="field">
+										<select aria-label="Playlist" name="playlist">
+											{#each userPlaylists as playlist}
+												<option value={playlist.id}>{playlist.name}</option>
+											{/each}
+										</select>
+									</div>
+									<div class="submit-button">
+										<Button element="button" type="submit">
+											Add <span class="visually-hidden"> {track.name} to selected playlist.</span>
+										</Button>
+									</div>
+								</form>
 							</div>
 						</div>
 					{/if}
@@ -261,6 +277,36 @@
 		.action-column {
 			width: 30px;
 			margin-left: 15px;
+			.add-pl-button {
+				background: none;
+				border: none;
+				padding: 5px;
+				cursor: pointer;
+				:global(svg) {
+					stroke: var(--text-color);
+					vertical-align: middle;
+					width: 22px;
+					height: 22px;
+				}
+				&:disabled {
+					opacity: 0.8;
+					cursor: not-allowed;
+				}
+			}
+			.playlists-menu-content {
+				padding: 15 px;
+				.field {
+					select {
+						width: 100px;
+						height: 35px;
+						border-radius: 4px;
+					}
+				}
+				.submit-button {
+					margin-top: 10px;
+					text-align: right;
+				}
+			}
 		}
 	}
 </style>
