@@ -9,6 +9,7 @@
 	import { page } from '$app/stores';
 	let currentPlaying: string | null = null;
 	let isPaused: boolean = false;
+	let isRemoveingFromPlaylist: string[] = [];
 
 	export let tracks: SpotifyApi.TrackObjectFull[] | SpotifyApi.TrackObjectSimplified[];
 	export let isOwner: boolean = false;
@@ -69,7 +70,44 @@
 			</div>
 			<div class="actions-column" class:is-owner={isOwner}>
 				{#if isOwner}
-					<ListX aria-hidden focusable="false" />
+					<form
+						method="POST"
+						action="/playlist/{$page.params.id}?/removeItem"
+						use:enhance={({ cancel }) => {
+							if (isRemoveingFromPlaylist.includes(track.id)) {
+								cancel();
+							}
+							isRemovingFromPlaylist = [...isRemovingFromPlaylist, track.id];
+							return ({ result }) => {
+								if (result.type === 'error') {
+									toasts.error(result.error.message);
+								}
+								if (result.type === 'redirect') {
+									const url = new URL(`${$page.url.origin}${result.location}`);
+									const error = url.searchParams.get('error');
+									const success = url.searchParams.get('success');
+									if (error) {
+										toasts.error(error);
+									}
+									if (success) {
+										toasts.success(success);
+										invalidate(`/api/spotify/playlists/${$page.params.id}`);
+									}
+								}
+								isRemovingFromPlaylist = isRemovingFromPlaylist.filter((t) => t !== track.id);
+							};
+						}}
+					>
+						<input hidden name="track" value={track.id} />
+						<button
+							type="submit"
+							title="Remove {track.name} from playlist"
+							class="remove-pl-button"
+							disabled={isRemoveingFromPlaylist.includes(track.id)}
+						>
+							<ListX aria-hidden focusable="false" />
+						</button>
+					</form>
 				{:else}
 					<button
 						title="Add {track.name} to a playlist"
@@ -274,10 +312,10 @@
 				}
 			}
 		}
-		.action-column {
+		.actions-column {
 			width: 30px;
 			margin-left: 15px;
-			.add-pl-button {
+			.add-pl-button .remove-pl-button {
 				background: none;
 				border: none;
 				padding: 5px;
