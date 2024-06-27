@@ -21,9 +21,9 @@ export const load: PageLoad = async ({ fetch, parent }) => {
 
 	return {
 		following: followingRes.ok
-			? (followingRes.json() as Promise<SpotifyApi.UsersFollowedArtistsResponse>)
+			? ((await followingRes.json()) as Promise<SpotifyApi.UsersFollowedArtistsResponse>)
 			: undefined,
 		title: user?.display_name,
-		color: colorRes?.ok ? colorRes.json().then((r) => r.color) : null
+		color: colorRes?.ok ? await colorRes.json().then((r) => r.color) : null
 	};
 };
