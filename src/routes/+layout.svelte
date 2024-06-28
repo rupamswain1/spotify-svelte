@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Navigation, Header, Toasts } from '$components';
+	import { Navigation, Header, Toasts, SearchForm } from '$components';
 	import '../app.css';
 	import '../styles/main.scss';
 	import type { LayoutData } from './$types';
@@ -70,6 +70,11 @@
 			</div>
 		{/if}
 		<main id="main-content" class:logged-in={user}>
+			{#if $page.url.pathname.startsWith('/search')}
+				<div class="search-form">
+					<SearchForm />
+				</div>
+			{/if}
 			<slot />
 		</main>
 	</div>
