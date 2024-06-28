@@ -21,7 +21,7 @@
 		if (data.featuredPlaylists) {
 			sections.push({
 				title: 'Featured Playlists',
-				path: '/sections/featured-playlists',
+				path: '/section/featured-playlists',
 				items: data.featuredPlaylists.playlists.items
 			});
 		}
